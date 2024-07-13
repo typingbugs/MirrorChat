@@ -1,6 +1,6 @@
 # 1. 什么是Mirror Chat？
 
-Mirror Chat是一个AI驱动的音频对话系统。该系统实现一个后端模型API：请求方输入语言选择（支持中/英）和音频，API返回AI生成的回答音频，该音频克隆了请求方音频的发音人音色。
+Mirror Chat 是一个 AI 驱动的音频对话系统。该系统实现一个后端模型 API：请求方输入语言选择（支持中/英）和音频，API返回AI生成的回答音频，该音频克隆了请求方音频的发音人音色。
 
 
 
@@ -14,11 +14,11 @@ Mirror Chat是一个AI驱动的音频对话系统。该系统实现一个后端�
 
 环境：Ubuntu 22.04，显存8G以上
 
-各个组件以API的形式独立运行（可以运行在不同服务器中），可以在同一局域网中调用，也可以通过内网穿透的方式调用。
+各个组件以 API 的形式独立运行（可以运行在不同服务器中），可以在同一局域网中调用，也可以通过内网穿透的方式调用。
 
 ## 3.1. WeNet
 
-参考[WeNet的Github页面](https://github.com/wenet-e2e/wenet)
+参考 [WeNet 的 Github 页面](https://github.com/wenet-e2e/wenet)
 
 1. 克隆仓库
 
@@ -29,16 +29,16 @@ Mirror Chat是一个AI驱动的音频对话系统。该系统实现一个后端�
    git clone https://github.com/wenet-e2e/wenet.git
    ```
 
-2. 创建Conda环境
+2. 创建 Conda 环境
 
    ```sh
    conda create -n wenet python=3.10
    conda activate wenet
    ```
 
-3. 安装CUDA，建议12.1版本以上
+3. 安装 CUDA，建议 12.1 版本以上
 
-4. 安装torch和torchaudio，以及其他依赖包
+4. 安装 torch 和 torchaudio，以及其他依赖包
 
    ```sh
    pip install torch==2.2.2+cu121 torchaudio==2.2.2+cu121 -f https://download.pytorch.org/whl/torch_stable.html
@@ -56,7 +56,7 @@ Mirror Chat是一个AI驱动的音频对话系统。该系统实现一个后端�
 
 6. 运行
 
-   在MirrorChat目录下：
+   在 MirrorChat 目录下：
 
    ```sh
    cd api/wenet
@@ -65,7 +65,7 @@ Mirror Chat是一个AI驱动的音频对话系统。该系统实现一个后端�
 
 ## 3.2. xTTS
 
-参考[xTTS的Github页面](https://github.com/coqui-ai/TTS?tab=readme-ov-file)
+参考 [xTTS 的 Github 页面](https://github.com/coqui-ai/TTS?tab=readme-ov-file)
 
 1. 克隆仓库
 
@@ -76,7 +76,7 @@ Mirror Chat是一个AI驱动的音频对话系统。该系统实现一个后端�
    git clone https://github.com/coqui-ai/TTS
    ```
 
-2. 创建Conda环境
+2. 创建 Conda 环境
 
    ```sh
    conda create -n xtts python=3.10
@@ -92,7 +92,7 @@ Mirror Chat是一个AI驱动的音频对话系统。该系统实现一个后端�
 
 4. 运行
 
-   在MirrorChat目录下：
+   在 MirrorChat 目录下：
 
    ```sh
    cd api/xtts
@@ -103,7 +103,7 @@ Mirror Chat是一个AI驱动的音频对话系统。该系统实现一个后端�
 
 ## 3.3. 问答TTS
 
-1. 将上述模型运行起来后，在MirrorChat目录下：
+1. 将上述模型运行起来后，在 MirrorChat 目录下：
 
    ```sh
    cd api/tts
@@ -116,7 +116,7 @@ Mirror Chat是一个AI驱动的音频对话系统。该系统实现一个后端�
    vim chatgpt_api_config.py
    ```
 
-   并将ChatGPT API的配置以以下形式写入（支持多个API，默认使用第1个API，当前面的API无法使用，会自动使用后面的API）：
+   并将 ChatGPT API 的配置以以下形式写入（支持多个 API，默认使用第1个 API，当前面的 API 无法使用，会自动使用后面的 API）：
 
    ```python
    chatgpt_apis = [
@@ -146,12 +146,15 @@ bash run_service.sh
 
 ## 3.5. 调用方法
 
-你可以使用类型下面python代码的方式调用该接口：
+你可以使用类似下面 python 代码的方式调用该接口：
 
 ```python
 import requests
 
 def test_process_audio(api_url, audio_file_path, language):
+    # api_url (str)：部署服务 API 的 URL
+    # audio_file_path (str)：本地的提问音频文件地址
+    # language (str)：支持 chinese 和 english
     url = f"{api_url}/process_audio"
     files = {'audio': open(audio_file_path, 'rb')}
     data = {'language': language}
