@@ -27,21 +27,18 @@ def merge_audio_files(base_audio, increment):
     base_audio += increment
     return base_audio
 
+
 def call_tts_api(server_url, response_text, language, audio):
-    """调用ChatTTS API，回答转语音"""
-    response = requests.post(
-        server_url, 
-        data={
-            "text": response_text,
-            'language': language
-        },
-        files={'audio': open(audio, 'rb')}
-    )
+    """调用xTTS API，回答转语音"""
+    url = server_url
+    data = {"text": response_text, 'language': language}
+    files = {'audio': open(audio, 'rb')}
+    response = requests.post(url=url, data=data, files=files)
     if response.status_code == 200:
         audio_segment = AudioSegment.from_file(file=BytesIO(response.content), format='wav')
         return audio_segment
     else:
-        print(f"Error: {response.json()['error']}")
+        print(f"Error: Something Wrong with xTTS.")
         return None
 
 
